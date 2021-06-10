@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`add 1`] = `
+NodeList [
+  102,
+  102,
+  100,
+]
+`;
+
+exports[`init-function 1`] = `
+NodeList [
+  102,
+  102,
+  100,
+]
+`;
+
+exports[`initData-normal 1`] = `
+NodeList [
+  100,
+  100,
+  100,
+]
+`;
+
+exports[`initData-undefined 1`] = `
+NodeList [
+  undefined,
+  undefined,
+  undefined,
+]
+`;
+
+exports[`useEffect 1`] = `
+NodeList [
+  Effect,
+  Effect,
+  Effect,
+]
+`;

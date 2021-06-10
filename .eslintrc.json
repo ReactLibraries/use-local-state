@@ -1,0 +1,34 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["@typescript-eslint"],
+  "env": { "node": true, "es6": true },
+  "parser": "@typescript-eslint/parser",
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "trailingComma": "es5",
+        "printWidth": 100,
+        "singleQuote": true,
+        "semi": true,
+        "trailing-camma": true
+      }
+    ],
+    "semi": ["error", "always"],
+    "semi-spacing": ["error", { "after": true, "before": false }],
+    "semi-style": ["error", "last"],
+    "no-extra-semi": "error",
+    "no-unexpected-multiline": "error",
+    "no-unreachable": "error",
+    "no-empty": 0,
+    "@typescript-eslint/ban-types": 0,
+    "@typescript-eslint/no-empty-function": 0,
+    "@typescript-eslint/explicit-module-boundary-types": 0,
+    "@typescript-eslint/no-non-null-assertion": 0
+  }
+} 
