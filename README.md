@@ -13,6 +13,8 @@ Simplify communication between React's child components
 
 ### Sample(useLocalState)
 
+https://user-images.githubusercontent.com/54426986/121639775-0325a200-cac8-11eb-8e17-5345086a3923.mp4
+
 ```tsx
 import React from 'react';
 import {
@@ -20,7 +22,7 @@ import {
   LocalState,
   useLocalState,
   mutateLocalState,
-} from './../libs/localState/index';
+} from '@react-libraries/use-local-state';
 
 const Component1 = ({ localState }: { localState: LocalState<number> }) => {
   const [value, setValue] = useLocalState(localState);
@@ -146,3 +148,6 @@ const App = () => {
 
 export default App;
 ```
+
+
+
