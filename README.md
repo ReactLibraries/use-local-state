@@ -150,6 +150,3 @@ export default App;
 ```
 
 ![localhost_3000_index11 - Google Chrome 2021-06-11 15-09-30_1](https://user-images.githubusercontent.com/54426986/121656601-9cf64a80-cada-11eb-996f-37fe764feaea.gif)
-
-
-

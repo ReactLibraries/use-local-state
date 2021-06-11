@@ -7,4 +7,4 @@ jest.config.js
 .eslintrc.json
 .github
 /test
-/coverrage
+/coverage
