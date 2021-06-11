@@ -4,7 +4,7 @@ exports[`add 1`] = `
 NodeList [
   102,
   102,
-  100,
+  102,
 ]
 `;
 
@@ -12,7 +12,7 @@ exports[`init-function 1`] = `
 NodeList [
   102,
   102,
-  100,
+  102,
 ]
 `;
 
@@ -29,6 +29,14 @@ NodeList [
   undefined,
   undefined,
   undefined,
+]
+`;
+
+exports[`selector 1`] = `
+NodeList [
+  11,
+  21,
+  32,
 ]
 `;
 

@@ -1,5 +1,6 @@
 {
   "name": "use-local-state",
+  "description": "Simplify communication between React's child components",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -9,6 +10,16 @@
     "test:update": "jest -u --coverage",
     "lint": "eslint --fix ./src ./test",
     "lint:fix": "eslint --fix ./src"
+  },
+  "keywords": [
+    "react",
+    "setstate",
+    "setlocalstate",
+    "react-hooks",
+    "typescript"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "react": "*",
@@ -30,5 +41,7 @@
     "prettier": "^2.3.1",
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.2"
-  }
+  },
+  "repository": "https://github.com/ReactLibraries/use-local-state",
+  "author": "SoraKumo <info@croud.jp>"
 }

@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 export interface LocalState<T> {
-  dispatches: React.Dispatch<{}>[];
+  dispatches: React.Dispatch<T>[];
   value: T;
 }
 
@@ -18,7 +18,7 @@ export const createLocalState: {
 export const useLocalState = <T = undefined>(
   stateKey: LocalState<T>
 ): [T, (value: T | ((value: T) => T)) => void] => {
-  const [, dispatch] = useState<{}>();
+  const [, dispatch] = useState<T>();
   useEffect(() => {
     stateKey.dispatches = [...stateKey.dispatches, dispatch];
     return () => {
@@ -26,15 +26,27 @@ export const useLocalState = <T = undefined>(
     };
   }, [stateKey]);
   const setState = useMemo(() => {
-    return (value: T | ((value: T) => T)) => mutate(stateKey, value);
+    return (value: T | ((value: T) => T)) => mutateLocalState(stateKey, value);
   }, [stateKey]);
   return [stateKey.value, setState];
 };
 
-export const mutate = <T = undefined>(stateKey: LocalState<T>, value: T | ((value: T) => T)) => {
-  const v = typeof value === 'function' ? (<(value: T) => T>value)(stateKey.value) : value;
-  if (stateKey.value !== v) {
-    stateKey.value = v;
-    stateKey.dispatches.forEach((dispatch) => dispatch({}));
-  }
+export const useLocalSelector = <T, K>(stateKey: LocalState<T>, callback: (value: T) => K): K => {
+  const [value, setValue] = useState(() => callback(stateKey.value));
+  const dispatch = useCallback((value: T) => setValue(callback(value)), []);
+  useEffect(() => {
+    stateKey.dispatches = [...stateKey.dispatches, dispatch];
+    return () => {
+      stateKey.dispatches = stateKey.dispatches.filter((d) => d !== dispatch);
+    };
+  }, [stateKey]);
+  return value;
+};
+
+export const mutateLocalState = <T = undefined>(
+  stateKey: LocalState<T>,
+  value: T | ((value: T) => T)
+) => {
+  stateKey.value = typeof value === 'function' ? (<(value: T) => T>value)(stateKey.value) : value;
+  stateKey.dispatches.forEach((dispatch) => dispatch(stateKey.value));
 };
