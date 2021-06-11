@@ -5,7 +5,7 @@ export interface LocalState<T> {
   value: T;
 }
 
-export const createLocalState: {
+export const useCreateLocalState: {
   <T>(value: T | (() => T)): LocalState<T>;
   <T = undefined>(value?: T): LocalState<T>;
 } = <T>(value: T | (() => T)) => {

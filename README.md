@@ -6,7 +6,7 @@ Simplify communication between React's child components
 
 ## usage
 
-- `createLocalState(initData)`
+- `useCreateLocalState(initData)`
 - `useLocalState(localState)`
 - `useLocalSelector(localState,selector)`
 - `mutateLocalState(localState,value)`
@@ -16,7 +16,7 @@ Simplify communication between React's child components
 ```tsx
 import React from 'react';
 import {
-  createLocalState,
+  useCreateLocalState,
   LocalState,
   useLocalState,
   mutateLocalState,
@@ -54,7 +54,7 @@ const Component3 = ({ localState }: { localState: LocalState<number> }) => {
   );
 };
 const App = () => {
-  const localState = createLocalState(0);
+  const localState = useCreateLocalState(0);
   console.log('Parent');
   return (
     <>
@@ -76,7 +76,7 @@ export default App;
 ```tsx
 import React, { VFC } from 'react';
 import {
-  createLocalState,
+  useCreateLocalState,
   LocalState,
   useLocalState,
   mutateLocalState,
@@ -135,7 +135,7 @@ export const Bmi: VFC<ChildProps> = ({ localState }) => {
 };
 
 const App = () => {
-  const localState = createLocalState<LocalStateType>({ tall: 170, weight: 60 });
+  const localState = useCreateLocalState<LocalStateType>({ tall: 170, weight: 60 });
   console.log('Parent');
   return (
     <>

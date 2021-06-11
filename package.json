@@ -1,7 +1,7 @@
 {
   "name": "@react-libraries/use-local-state",
   "description": "Simplify communication between React's child components",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {

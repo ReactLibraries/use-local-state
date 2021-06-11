@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
-import { useLocalState, createLocalState, LocalState, useLocalSelector } from '../src/index';
+import { useLocalState, useCreateLocalState, LocalState, useLocalSelector } from '../src/index';
 import { mutateLocalState } from './../src/index';
 
 let container: HTMLElement;
@@ -29,7 +29,7 @@ it('initData-undefined', () => {
     return <>{value ?? 'undefined'}</>;
   };
   const Parent = () => {
-    const localState = createLocalState();
+    const localState = useCreateLocalState();
     return (
       <>
         <Component01 localState={localState} />
@@ -58,7 +58,7 @@ it('initData-normal', () => {
     return <>{value ?? 'undefined'}</>;
   };
   const Parent = () => {
-    const localState = createLocalState(100);
+    const localState = useCreateLocalState(100);
     return (
       <>
         <Component01 localState={localState} />
@@ -95,7 +95,7 @@ it('useEffect', () => {
   };
 
   const Parent = () => {
-    const localState = createLocalState<number | string>(100);
+    const localState = useCreateLocalState<number | string>(100);
     return (
       <>
         <Component01 localState={localState} />
@@ -135,7 +135,7 @@ it('add', () => {
   };
 
   const Parent = () => {
-    const localState = createLocalState<number>(100);
+    const localState = useCreateLocalState<number>(100);
     return (
       <>
         <Component01 localState={localState} />
@@ -176,7 +176,7 @@ it('selector', () => {
   };
 
   const Parent = () => {
-    const localState = createLocalState<LocalStateType>({ value1: 10, value2: 20 });
+    const localState = useCreateLocalState<LocalStateType>({ value1: 10, value2: 20 });
     return (
       <>
         <Component01 localState={localState} />
@@ -216,7 +216,7 @@ it('init-function', () => {
   };
 
   const Parent = () => {
-    const localState = createLocalState<number>(() => 100);
+    const localState = useCreateLocalState<number>(() => 100);
     return (
       <>
         <Component01 localState={localState} />
