@@ -13,8 +13,6 @@ Simplify communication between React's child components
 
 ### Sample(useLocalState)
 
-https://user-images.githubusercontent.com/54426986/121639775-0325a200-cac8-11eb-8e17-5345086a3923.mp4
-
 ```tsx
 import React from 'react';
 import {
@@ -70,6 +68,8 @@ const App = () => {
 
 export default App;
 ```
+
+![localhost_3000_index11 - Google Chrome 2021-06-11 15-09-30](https://user-images.githubusercontent.com/54426986/121656499-8223d600-cada-11eb-9332-13042658799a.gif)
 
 ### Sample(useLocalSelector)
 
@@ -148,6 +148,8 @@ const App = () => {
 
 export default App;
 ```
+
+![localhost_3000_index11 - Google Chrome 2021-06-11 15-09-30_1](https://user-images.githubusercontent.com/54426986/121656601-9cf64a80-cada-11eb-996f-37fe764feaea.gif)
 
 
 
