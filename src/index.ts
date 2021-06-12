@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 /**
  * Type for State control
@@ -48,9 +49,10 @@ export const useLocalState = <T = undefined>(
       state.dispatches = state.dispatches.filter((d) => d !== dispatch);
     };
   }, [state]);
-  const setState = useMemo(() => {
-    return (value: T | ((value: T) => T)) => mutateLocalState(state, value);
-  }, [state]);
+  const setState = useCallback(
+    (value: T | ((value: T) => T)) => mutateLocalState(state, value),
+    [state]
+  );
   return [state.value, setState];
 };
 
@@ -84,10 +86,32 @@ export const useLocalSelector = <T, K>(state: LocalState<T>, callback: (value: T
  * @param {LocalState<T>} state The type of value to use for state
  * @param {(T | ((value: T) => T))} value A value to set for state or a callback to set
  */
-export const mutateLocalState = <T = undefined>(
-  state: LocalState<T>,
-  value: T | ((value: T) => T)
-) => {
+export const mutateLocalState = <T>(state: LocalState<T>, value: T | ((value: T) => T)) => {
   state.value = typeof value === 'function' ? (<(value: T) => T>value)(state.value) : value;
   state.dispatches.forEach((dispatch) => dispatch(state.value));
+};
+
+/**
+ * Reducer to manipulate the state.
+ *
+ * @export
+ * @template T The type of value to use for state
+ * @template R Reducer
+ * @template K Action
+ * @param {LocalState<T>} state
+ * @param {R} reducer
+ * @return {*} dispatch
+ */
+export const useLocallReducer = <
+  T,
+  R extends (state: T, action: any) => T,
+  K extends Parameters<R>[1]
+>(
+  state: LocalState<T>,
+  reducer: R
+) => {
+  return useCallback(
+    (action: K) => mutateLocalState(state, reducer(state.value, action)),
+    [state, reducer]
+  );
 };

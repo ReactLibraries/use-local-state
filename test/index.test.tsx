@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
-import { useLocalState, useCreateLocalState, LocalState, useLocalSelector } from '../src/index';
+import {
+  useLocalState,
+  useCreateLocalState,
+  LocalState,
+  useLocalSelector,
+  useLocallReducer,
+} from '../src/index';
 import { mutateLocalState } from './../src/index';
 
 let container: HTMLElement;
@@ -229,5 +235,51 @@ it('init-function', () => {
     render(<Parent />, container);
   });
 
+  expect(container.childNodes).toMatchSnapshot();
+});
+
+it('reducer', () => {
+  const reducer = (state: number, action: { type: 'increment' | 'dbl-increment' }) => {
+    switch (action.type) {
+      case 'increment':
+        return state + 1;
+      case 'dbl-increment':
+        return state + 2;
+    }
+  };
+
+  const Component01 = ({ localState }: { localState: LocalState<number> }) => {
+    const dispatch = useLocallReducer(localState, reducer);
+    const [value] = useLocalState(localState);
+    useEffect(() => dispatch({ type: 'increment' }), []);
+    return <>{value ?? 'undefined'}</>;
+  };
+  const Component02 = ({ localState }: { localState: LocalState<number> }) => {
+    const dispatch = useLocallReducer(localState, reducer);
+    const [value] = useLocalState(localState);
+    useEffect(() => dispatch({ type: 'dbl-increment' }), []);
+    return <>{value ?? 'undefined'}</>;
+  };
+  const Component03 = ({ localState }: { localState: LocalState<number> }) => {
+    const [value, setValue] = useLocalState(localState);
+    useEffect(() => {
+      setValue((v) => v);
+    }, []);
+    return <>{value ?? 'undefined'}</>;
+  };
+
+  const Parent = () => {
+    const localState = useCreateLocalState<number>(100);
+    return (
+      <>
+        <Component01 localState={localState} />
+        <Component02 localState={localState} />
+        <Component03 localState={localState} />
+      </>
+    );
+  };
+  act(() => {
+    render(<Parent />, container);
+  });
   expect(container.childNodes).toMatchSnapshot();
 });

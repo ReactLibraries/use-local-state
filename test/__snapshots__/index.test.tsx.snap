@@ -32,6 +32,14 @@ NodeList [
 ]
 `;
 
+exports[`reducer 1`] = `
+NodeList [
+  103,
+  103,
+  103,
+]
+`;
+
 exports[`selector 1`] = `
 NodeList [
   11,
