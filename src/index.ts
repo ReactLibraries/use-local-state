@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 /**
  * Type for State control
@@ -21,7 +21,7 @@ export interface LocalState<T> {
  * @return Instances of state
  */
 export const useCreateLocalState: {
-  <T>(value?: T | (() => T)): LocalState<T>;
+  <T>(value: T | (() => T)): LocalState<T>;
   <T = undefined>(value?: T): LocalState<T>;
 } = <T>(value: T | (() => T)) => {
   return useRef<LocalState<T>>({
@@ -48,7 +48,7 @@ export const useLocalState = <T = undefined>(
       state.dispatches = state.dispatches.filter((d) => d !== dispatch);
     };
   }, [state]);
-  const setState = useCallback(() => {
+  const setState = useMemo(() => {
     return (value: T | ((value: T) => T)) => mutateLocalState(state, value);
   }, [state]);
   return [state.value, setState];
@@ -63,7 +63,8 @@ export const useLocalState = <T = undefined>(
  * @param {LocalState<T>} state The type of value to use for state
  * @param {(value: T) => K} callback callbak to select the target state.
  * @return {*}  {K} Selected state
- */ export const useLocalSelector = <T, K>(state: LocalState<T>, callback: (value: T) => K): K => {
+ */
+export const useLocalSelector = <T, K>(state: LocalState<T>, callback: (value: T) => K): K => {
   const [value, setValue] = useState(() => callback(state.value));
   const dispatch = useCallback((value: T) => setValue(callback(value)), []);
   useEffect(() => {

@@ -163,7 +163,7 @@ it('selector', () => {
   const Component02 = ({ localState }: { localState: LocalState<LocalStateType> }) => {
     const value = useLocalSelector(localState, (v) => v.value2);
     useEffect(() => {
-      mutateLocalState(localState, (v) => ({ ...v, value2: v.value2 + 1 }));
+      mutateLocalState(localState, { ...localState.value, value2: localState.value.value2 + 1 });
     }, []);
     return <>{value ?? 'undefined'}</>;
   };
@@ -231,5 +231,3 @@ it('init-function', () => {
 
   expect(container.childNodes).toMatchSnapshot();
 });
-
-
