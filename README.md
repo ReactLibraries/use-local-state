@@ -4,6 +4,8 @@
 
 Simplify communication between React's child components
 
+***
+
 ## Table of contents
 
 ### Interfaces link
@@ -21,6 +23,8 @@ Simplify communication between React's child components
 
 - [useLocalState](#sampleuselocalstate)
 - [useLocalSelector](#sampleuselocalselector)
+
+***
 
 ## Interface
 
@@ -41,24 +45,19 @@ Type for State control
 
 Write a value to state
 
-**`export`**
-
-#### Type parameters
+#### mutateLocalState - Type parameters
 
 | Name | Type              | Description                        |
 | :--- | :---------------- | :--------------------------------- |
 | `T`  | `T` = `undefined` | The type of value to use for state |
 
-#### Parameters
+#### mutateLocalState - Parameters
 
-| Name    | Type                                       | Description                                   |
-| :------ | :----------------------------------------- | :-------------------------------------------- |
+| Name    | Type                           | Description                                   |
+| :------ | :----------------------------- | :-------------------------------------------- |
 | `state` | [LocalState](#localstatet)<T\> | The type of value to use for state            |
-| `value` | `T` \| (`value`: `T`) => `T`               | A value to set for state or a callback to set |
+| `value` | `T` \| (`value`: `T`) => `T`   | A value to set for state or a callback to set |
 
-#### Returns
-
-`void`
 ___
 
 ### useCreateLocalState
@@ -67,45 +66,19 @@ ___
 
 Create a state
 
-**`export`**
-
-#### Type parameters
+#### useCreateLocalState - Type parameters
 
 | Name | Description                        |
 | :--- | :--------------------------------- |
 | `T`  | The type of value to use for state |
 
-#### Parameters
+#### useCreateLocalState - Parameters
 
 | Name     | Type             | Description   |
 | :------- | :--------------- | :------------ |
 | `value?` | `T` \| () => `T` | Initial value |
 
-#### Returns
-
-[LocalState](#localstatet)<T\>
-
-Instances of state
-
-▸ `Const` **useCreateLocalState**<T\>(`value?`): [LocalState](#localstatet)<T\>
-
-Create a state
-
-**`export`**
-
-#### Type parameters
-
-| Name | Type              | Description                        |
-| :--- | :---------------- | :--------------------------------- |
-| `T`  | `T` = `undefined` | The type of value to use for state |
-
-#### Parameters
-
-| Name     | Type | Description   |
-| :------- | :--- | :------------ |
-| `value?` | `T`  | Initial value |
-
-#### Returns
+#### useCreateLocalState - Returns
 
 [LocalState](#localstatet)<T\>
 
@@ -121,21 +94,21 @@ Select and retrieve the value of state
 
 **`export`**
 
-#### Type parameters
+#### useLocalSelector - Type parameters
 
 | Name | Description                        |
 | :--- | :--------------------------------- |
 | `T`  | The type of value to use for state |
 | `K`  | Type of the selected value         |
 
-#### Parameters
+#### useLocalSelector - Parameters
 
-| Name       | Type                                       | Description                         |
-| :--------- | :----------------------------------------- | :---------------------------------- |
+| Name       | Type                           | Description                         |
+| :--------- | :----------------------------- | :---------------------------------- |
 | `state`    | [LocalState](#localstatet)<T\> | The type of value to use for state  |
-| `callback` | (`value`: `T`) => `K`                      | callbak to select the target state. |
+| `callback` | (`value`: `T`) => `K`          | callbak to select the target state. |
 
-#### Returns
+#### useLocalSelector - Returns
 
 `K`
 
@@ -151,21 +124,49 @@ Perform the same action as useState
 
 **`export`**
 
-#### Type parameters
+#### useLocalState - Type parameters
 
 | Name | Type              | Description                        |
 | :--- | :---------------- | :--------------------------------- |
 | `T`  | `T` = `undefined` | The type of value to use for state |
 
-#### Parameters
+#### useLocalState - Parameters
 
-| Name    | Type                                       | Description                        |
-| :------ | :----------------------------------------- | :--------------------------------- |
+| Name    | Type                           | Description                        |
+| :------ | :----------------------------- | :--------------------------------- |
 | `state` | [LocalState](#localstatet)<T\> | The type of value to use for state |
 
-#### Returns
+#### useLocalState - Returns
 
 [`T`, (`value`: `T` \| (`value`: `T`) => `T`) => `void`]
+
+___
+
+### useLocallReducer
+
+▸ `Const` **useLocallReducer**<T\>(`state`,`reducer`): ((`action`: `K`) => void)
+
+Reducer to manipulate the state.
+
+#### useLocallReducer - Type parameters
+
+| Name | Type | Description                        |
+| :--- | :--- | :--------------------------------- |
+| `T`  | `T`  | The type of value to use for state |
+| `K`  | `K`  | Action function                    |
+
+#### useLocallReducer - Parameters
+
+| Name      | Type                           | Description                        |
+| :-------- | :----------------------------- | :--------------------------------- |
+| `state`   | [LocalState](#localstatet)<T\> | The type of value to use for state |
+| `reducer` | (state: T, action: K) => <T\>  | Reducer                            |
+
+#### useLocallReducer - Returns
+
+(`action`: `K`) => void
+
+___
 
 ## Samples
 
@@ -308,3 +309,96 @@ export default App;
 ```
 
 ![localhost_3000_index11 - Google Chrome 2021-06-11 15-09-30_1](https://user-images.githubusercontent.com/54426986/121656601-9cf64a80-cada-11eb-996f-37fe764feaea.gif)
+
+
+### Sample(useLocalReducer)
+
+```tsx
+import React, { VFC } from 'react';
+import {
+  LocalState,
+  useLocalSelector,
+  useCreateLocalState,
+  useLocallReducer,
+} from '@react-libraries/use-local-state';
+
+interface LocalStateType {
+  tall: number;
+  weight: number;
+}
+interface ChildProps {
+  state: LocalState<LocalStateType>;
+}
+
+const reducer = (
+  state: LocalStateType,
+  { type, payload: { value } }: { type: 'SET_TALL' | 'SET_WEIGHT'; payload: { value: number } }
+) => {
+  switch (type) {
+    case 'SET_TALL':
+      return { ...state, tall: value };
+    case 'SET_WEIGHT':
+      return { ...state, weight: value };
+  }
+};
+
+export const Tall: VFC<ChildProps> = ({ state }) => {
+  console.log('Tall');
+  const tall = useLocalSelector(state, (v) => v.tall);
+  const dispatch = useLocallReducer(state, reducer);
+  return (
+    <div>
+      Tall:
+      <input
+        value={tall}
+        onChange={(e) => {
+          dispatch({ type: 'SET_TALL', payload: { value: Number(e.target.value) } });
+        }}
+      />
+    </div>
+  );
+};
+export const Weight: VFC<ChildProps> = ({ state }) => {
+  console.log('Weight');
+  const weight = useLocalSelector(state, (v) => v.weight);
+  const dispatch = useLocallReducer(state, reducer);
+  return (
+    <div style={{ display: 'flex' }}>
+      Weight:
+      <input
+        value={weight}
+        onChange={(e) => {
+          dispatch({ type: 'SET_WEIGHT', payload: { value: Number(e.target.value) } });
+        }}
+      />
+    </div>
+  );
+};
+
+export const Bmi: VFC<ChildProps> = ({ state }) => {
+  console.log('Bmi');
+  const { tall, weight } = useLocalSelector(state, (v) => v);
+  return (
+    <div>
+      {isNaN(Number(tall)) || isNaN(Number(weight))
+        ? 'Error'
+        : `BMI:${Math.floor((Number(weight) / Math.pow(Number(tall) / 100, 2)) * 100) / 100}`}
+    </div>
+  );
+};
+
+const App = () => {
+  const state = useCreateLocalState<LocalStateType>(() => ({ tall: 170, weight: 60 }));
+  console.log('Parent');
+  return (
+    <>
+      <Bmi state={state} />
+      <Tall state={state} />
+      <Weight state={state} />
+    </>
+  );
+};
+
+export default App;
+
+```
