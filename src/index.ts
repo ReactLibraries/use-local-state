@@ -21,7 +21,7 @@ export interface LocalState<T> {
  * @param {(T | (() => T))} value Initial value
  * @return Instances of state
  */
-export const useCreateLocalState: {
+export const useLocalStateCreate: {
   <T>(value: T | (() => T)): LocalState<T>;
   <T = undefined>(value?: T): LocalState<T>;
 } = <T>(value: T | (() => T)) => {
@@ -30,6 +30,7 @@ export const useCreateLocalState: {
     value: typeof value === 'function' ? (<() => T>value)() : value,
   }).current;
 };
+export const useCreateLocalState = useLocalStateCreate;
 
 /**
  * Perform the same action as useState

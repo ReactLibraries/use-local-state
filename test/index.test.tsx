@@ -3,7 +3,7 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import {
   useLocalState,
-  useCreateLocalState,
+  useLocalStateCreate,
   LocalState,
   useLocalSelector,
   useLocallReducer,
@@ -35,7 +35,7 @@ it('initData-undefined', () => {
     return <>{value ?? 'undefined'}</>;
   };
   const Parent = () => {
-    const localState = useCreateLocalState();
+    const localState = useLocalStateCreate();
     return (
       <>
         <Component01 localState={localState} />
@@ -64,7 +64,7 @@ it('initData-normal', () => {
     return <>{value ?? 'undefined'}</>;
   };
   const Parent = () => {
-    const localState = useCreateLocalState(100);
+    const localState = useLocalStateCreate(100);
     return (
       <>
         <Component01 localState={localState} />
@@ -101,7 +101,7 @@ it('useEffect', () => {
   };
 
   const Parent = () => {
-    const localState = useCreateLocalState<number | string>(100);
+    const localState = useLocalStateCreate<number | string>(100);
     return (
       <>
         <Component01 localState={localState} />
@@ -141,7 +141,7 @@ it('add', () => {
   };
 
   const Parent = () => {
-    const localState = useCreateLocalState<number>(100);
+    const localState = useLocalStateCreate<number>(100);
     return (
       <>
         <Component01 localState={localState} />
@@ -182,7 +182,7 @@ it('selector', () => {
   };
 
   const Parent = () => {
-    const localState = useCreateLocalState<LocalStateType>({ value1: 10, value2: 20 });
+    const localState = useLocalStateCreate<LocalStateType>({ value1: 10, value2: 20 });
     return (
       <>
         <Component01 localState={localState} />
@@ -222,7 +222,7 @@ it('init-function', () => {
   };
 
   const Parent = () => {
-    const localState = useCreateLocalState<number>(() => 100);
+    const localState = useLocalStateCreate<number>(() => 100);
     return (
       <>
         <Component01 localState={localState} />
@@ -269,7 +269,7 @@ it('reducer', () => {
   };
 
   const Parent = () => {
-    const localState = useCreateLocalState<number>(100);
+    const localState = useLocalStateCreate<number>(100);
     return (
       <>
         <Component01 localState={localState} />

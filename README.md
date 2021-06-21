@@ -15,7 +15,7 @@ Simplify communication between React's child components
 ### Functions link
 
 - [mutateLocalState](#mutatelocalstate)
-- [useCreateLocalState](#usecreatelocalstate)
+- [useLocalStateCreate](#useLocalStateCreate)
 - [useLocalSelector](#uselocalselector)
 - [useLocalState](#uselocalstate)
 
@@ -60,25 +60,25 @@ Write a value to state
 
 ___
 
-### useCreateLocalState
+### useLocalStateCreate
 
-▸ `Const` **useCreateLocalState**<T\>(`value?`): [LocalState](#localstatet)<T\>
+▸ `Const` **useLocalStateCreate**<T\>(`value?`): [LocalState](#localstatet)<T\>
 
 Create a state
 
-#### useCreateLocalState - Type parameters
+#### useLocalStateCreate - Type parameters
 
 | Name | Description                        |
 | :--- | :--------------------------------- |
 | `T`  | The type of value to use for state |
 
-#### useCreateLocalState - Parameters
+#### useLocalStateCreate - Parameters
 
 | Name     | Type             | Description   |
 | :------- | :--------------- | :------------ |
 | `value?` | `T` \| () => `T` | Initial value |
 
-#### useCreateLocalState - Returns
+#### useLocalStateCreate - Returns
 
 [LocalState](#localstatet)<T\>
 
@@ -175,7 +175,7 @@ ___
 ```tsx
 import React from 'react';
 import {
-  useCreateLocalState,
+  useLocalStateCreate,
   LocalState,
   useLocalState,
   mutateLocalState,
@@ -213,7 +213,7 @@ const Component3 = ({ localState }: { localState: LocalState<number> }) => {
   );
 };
 const App = () => {
-  const localState = useCreateLocalState(0);
+  const localState = useLocalStateCreate(0);
   console.log('Parent');
   return (
     <>
@@ -235,7 +235,7 @@ export default App;
 ```tsx
 import React, { VFC } from 'react';
 import {
-  useCreateLocalState,
+  useLocalStateCreate,
   LocalState,
   useLocalState,
   mutateLocalState,
@@ -294,7 +294,7 @@ export const Bmi: VFC<ChildProps> = ({ localState }) => {
 };
 
 const App = () => {
-  const localState = useCreateLocalState<LocalStateType>({ tall: 170, weight: 60 });
+  const localState = useLocalStateCreate<LocalStateType>({ tall: 170, weight: 60 });
   console.log('Parent');
   return (
     <>
@@ -318,7 +318,7 @@ import React, { VFC } from 'react';
 import {
   LocalState,
   useLocalSelector,
-  useCreateLocalState,
+  useLocalStateCreate,
   useLocallReducer,
 } from '@react-libraries/use-local-state';
 
@@ -388,7 +388,7 @@ export const Bmi: VFC<ChildProps> = ({ state }) => {
 };
 
 const App = () => {
-  const state = useCreateLocalState<LocalStateType>(() => ({ tall: 170, weight: 60 }));
+  const state = useLocalStateCreate<LocalStateType>(() => ({ tall: 170, weight: 60 }));
   console.log('Parent');
   return (
     <>
